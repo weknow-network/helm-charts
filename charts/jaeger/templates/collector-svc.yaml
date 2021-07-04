@@ -36,7 +36,7 @@ spec:
     targetPort: zipkin
 {{- end }}
   - name: admin
-    port: 14269
+    port: {{ .Values.admin.port }}
     targetPort: admin
   selector:
     {{- include "jaeger.selectorLabels" . | nindent 4 }}

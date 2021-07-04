@@ -186,7 +186,7 @@ spec:
         {{- end }}
         ports:
         - name: admin
-          containerPort: 14271
+          containerPort: {{ .Values.admin.port }}
           protocol: TCP
         volumeMounts:
         {{- range .Values.agent.extraConfigmapMounts }}

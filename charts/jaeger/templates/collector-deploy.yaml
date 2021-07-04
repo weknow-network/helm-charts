@@ -96,7 +96,7 @@ spec:
         - containerPort: {{ .Values.collector.service.http.port }}
           name: http
           protocol: TCP
-        - containerPort: 14269
+        - containerPort: {{ .Values.admin.port }}
           name: admin
           protocol: TCP
         {{- if .Values.collector.service.zipkin }}

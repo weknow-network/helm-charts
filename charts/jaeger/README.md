@@ -328,3 +328,20 @@ extraObjects:
       - kind: ServiceAccount
         name: "{{ include \"jaeger.esLookback.serviceAccountName\" . }}"
 ```
+
+## Deploy for Open Telemetry image
+
+Replace the images for `jaegertracing/jaeger-opentelemetry-*`
+
+```bash
+helm upgrade -i jaeger -n poc-j --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=false --set provisionDataStore.kafka=false --set storage.type=elasticsearch --set storage.elasticsearch.host=SEERVICE_PATH.svc.cluster.local --set storage.elasticsearch.usePassword=false --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680 jaegertracing/jaeger
+```
+
+
+### using local '.' instead of 'jaegertracing/jaeger'
+
+```bash
+helm dependency update
+
+helm upgrade -i jaeger -n poc-j --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=false --set provisionDataStore.kafka=false --set storage.type=elasticsearch --set storage.elasticsearch.host=SEERVICE_PATH.svc.cluster.local --set storage.elasticsearch.usePassword=false --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680 .
+```

@@ -94,7 +94,7 @@ spec:
           hostPort: {{ .Values.agent.service.samplingPort }}
           {{- end }}
         - name: admin
-          containerPort: 14271
+          containerPort: {{ .Values.admin.port }}
           protocol: TCP
         livenessProbe:
           httpGet:

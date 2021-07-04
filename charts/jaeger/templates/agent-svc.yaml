@@ -29,7 +29,7 @@ spec:
     protocol: TCP
     targetPort: http
   - name: admin
-    port: 14271
+    port: {{ .Values.admin.port }}
     protocol: TCP
     targetPort: admin
   type: {{ .Values.agent.service.type }}
