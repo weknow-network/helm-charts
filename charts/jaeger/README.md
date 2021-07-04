@@ -265,6 +265,7 @@ helm install jaeger jaegertracing/jaeger \
 ```
 
 ## oAuth2 Sidecar
+
 If extra protection of the Jaeger UI is needed, then the oAuth2 sidecar can be enabled in the Jaeger Query. The oAuth2
 sidecar acts as a security proxy in front of the Jaeger Query service and enforces user authentication before reaching
 the Jaeger UI. This method can work with any valid provider including Keycloak, Azure, Google, GitHub, and more.
@@ -308,8 +309,8 @@ query:
 
 ## Installing extra kubernetes objects
 
-If additional kubernetes objects need to be installed alongside this chart, set the `extraObjects` array to contain 
-the yaml describing these objects. The values in the array are treated as a template to allow the use of variable 
+If additional kubernetes objects need to be installed alongside this chart, set the `extraObjects` array to contain
+the yaml describing these objects. The values in the array are treated as a template to allow the use of variable
 substitution and function calls as in the example below.
 
 Content of the `jaeger-values.yaml` file:
@@ -334,16 +335,15 @@ extraObjects:
 Replace the images for `jaegertracing/jaeger-opentelemetry-*`
 
 ```bash
-helm upgrade -i jaeger -n poc-j --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=false --set provisionDataStore.kafka=false --set storage.type=elasticsearch --set storage.elasticsearch.host=SEERVICE_PATH.svc.cluster.local --set storage.elasticsearch.usePassword=false --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680 --set admin.port=13133 jaegertracing/jaeger
+helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=false --set provisionDataStore.kafka=false --set storage.type=elasticsearch --set storage.elasticsearch.host=SEERVICE_PATH.svc.cluster.local --set storage.elasticsearch.usePassword=false --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680 --set admin.port=13133 jaegertracing/jaeger
 ```
-
 
 ### using local '.' instead of 'jaegertracing/jaeger'
 
 ```bash
 helm dependency update
 
-helm upgrade -i jaeger -n poc-j --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=false --set provisionDataStore.kafka=false --set storage.type=elasticsearch --set storage.elasticsearch.host=SEERVICE_PATH.svc.cluster.local --set storage.elasticsearch.usePassword=false --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680 --set admin.port=13133 .
+helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=false --set provisionDataStore.kafka=false --set storage.type=elasticsearch --set storage.elasticsearch.host=SEERVICE_PATH.svc.cluster.local --set storage.elasticsearch.usePassword=false --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680 --set admin.port=13133 .
 ```
 
 ### Pack
