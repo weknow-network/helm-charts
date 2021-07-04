@@ -1,3 +1,3 @@
 theme: jekyll-theme-cayman
-name: Jaeger Charts
-description: Jaeger Tracing Helm Repository
+name: Jaeger OTPL Charts
+description: Jaeger Open-Telemetry Tracing Helm Repository
