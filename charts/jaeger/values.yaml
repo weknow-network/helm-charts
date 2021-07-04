@@ -14,7 +14,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 admin:
-  port: 13133
+  port: 14269
 
 storage:
   # allowed values (cassandra, elasticsearch)
