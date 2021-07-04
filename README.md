@@ -13,7 +13,7 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 Once Helm is set up properly, add the repo as follows:
 
 ```console
-$ helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+$ helm repo add jaegertracing https://weknow-network.github.io/jaeger-helm-charts-otpl
 ```
 
 You can then run `helm search repo jaegertracing` to see the charts.

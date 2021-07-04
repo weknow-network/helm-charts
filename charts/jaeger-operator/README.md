@@ -21,7 +21,7 @@ This chart bootstraps a jaeger-operator deployment on a [Kubernetes](http://kube
 Add the Jaeger Tracing Helm repository:
 
 ```console
-$ helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+$ helm repo add jaegertracing https://weknow-network.github.io/jaeger-helm-charts-otpl
 ```
 
 To install the chart with the release name `my-release`:
@@ -61,7 +61,7 @@ The following table lists the configurable parameters of the jaeger-operator cha
 | `rbac.pspEnabled`       | Pod security policy for pod will be created and included in rbac role                                       | `false`                         |
 | `rbac.clusterRole`      | ClusterRole will be used by operator ServiceAccount                                                         | `false`                         |
 | `serviceAccount.name`   | Service account name to use. If not set and create is true, a name is generated using the fullname template | `nil`                           |
-| `extraEnv`              | Additional environment variables passed to the operator. For example:   name: LOG-LEVEL   value: debug      | `[]`                            |
+| `extraEnv`              | Additional environment variables passed to the operator. For example: name: LOG-LEVEL value: debug          | `[]`                            |
 | `resources`             | K8s pod resources                                                                                           | `None`                          |
 | `nodeSelector`          | Node labels for pod assignment                                                                              | `{}`                            |
 | `tolerations`           | Toleration labels for pod assignment                                                                        | `[]`                            |

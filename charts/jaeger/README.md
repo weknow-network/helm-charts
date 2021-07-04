@@ -11,7 +11,7 @@ This chart adds all components required to run Jaeger as described in the [jaege
 Add the Jaeger Tracing Helm repository:
 
 ```bash
-helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+helm repo add jaegertracing https://weknow-network.github.io/jaeger-helm-charts-otpl
 ```
 
 To install a release named `jaeger`:
