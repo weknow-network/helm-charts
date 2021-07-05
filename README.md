@@ -5,6 +5,11 @@
 
 This functionality is in beta and is subject to change. The code is provided as-is with no warranties. Beta features are not subject to the support SLA of official GA features.
 
+## Open Telemetry
+
+This fork was modify the origin in order to fit into [Open Telemetry Collector](https://github.com/open-telemetry/opentelemetry-collector).
+_When this functionality will be supported by official helm this fork will be deprecated._
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts.

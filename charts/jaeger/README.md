@@ -2,6 +2,11 @@
 
 [Jaeger](https://www.jaegertracing.io/) is a distributed tracing system.
 
+## Open Telemetry
+
+This fork was modify the origin in order to fit into [Open Telemetry Collector](https://github.com/open-telemetry/opentelemetry-collector).
+_When this functionality will be supported by official helm this fork will be deprecated._
+
 ## Introduction
 
 This chart adds all components required to run Jaeger as described in the [jaeger-kubernetes](https://github.com/jaegertracing/jaeger-kubernetes) GitHub page for a production-like deployment. The chart default will deploy a new Cassandra cluster (using the [cassandra chart](https://github.com/kubernetes/charts/tree/master/incubator/cassandra)), but also supports using an existing Cassandra cluster, deploying a new ElasticSearch cluster (using the [elasticsearch chart](https://github.com/elastic/helm-charts/tree/master/elasticsearch)), or connecting to an existing ElasticSearch cluster. Once the storage backend is available, the chart will deploy jaeger-agent as a DaemonSet and deploy the jaeger-collector and jaeger-query components as Deployments.
