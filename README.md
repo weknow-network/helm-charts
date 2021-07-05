@@ -13,7 +13,8 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 Once Helm is set up properly, add the repo as follows:
 
 ```console
-$ helm repo add jaegertracing https://weknow-network.github.io/jaeger-helm-charts-otpl
+$ helm repo add jaeger-otpl https://weknow-network.github.io/jaeger-helm-charts-otpl
+$ helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
 ```
 
 You can then run `helm search repo jaegertracing` to see the charts.
@@ -26,22 +27,56 @@ We'd love to have you contribute! Please refer to our [contribution guidelines](
 
 [Apache 2.0 License](./LICENSE).
 
-## Deploy for Open Telemetry image
+## Deploy as Open Telemetry
 
-Replace the images for `jaegertracing/jaeger-opentelemetry-*`
+Replace the images for `jaeger-otpl/jaeger-opentelemetry-*`
 
 [Read more](https://www.jaegertracing.io/docs/1.21/opentelemetry/)
 
 ```bash
-helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=true --set provisionDataStore.kafka=false --set storage.type=elasticsearch  --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680  --set admin.port=13133 jaegertracing/jaeger
+helm upgrade -i jaeger -n jaeger-otpl-v1 \
+        --set tag=latest \
+        --set provisionDataStore.cassandra=false \
+        --set provisionDataStore.elasticsearch=true \
+        --set provisionDataStore.kafka=false \
+        --set storage.type=elasticsearch  \
+        --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester \
+        --set agent.image=jaegertracing/jaeger-opentelemetry-agent \
+        --set collector.image=jaegertracing/jaeger-opentelemetry-collector \
+        --set collector.service.http.port=55680  \
+        --set admin.port=13133 \
+        jaeger-otpl/jaeger
 ```
 
-### using local '.' instead of 'jaegertracing/jaeger'
+```bash
+# one line
+helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=true --set provisionDataStore.kafka=false --set storage.type=elasticsearch  --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680  --set admin.port=13133 jaeger-otpl/jaeger
+```
+
+### using local '.' instead of 'jaeger-otpl/jaeger'
 
 ```bash
-helm dependency update ./charts/jaeger
+helm dependency update
+```
 
-helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=true --set provisionDataStore.kafka=false --set storage.type=elasticsearch  --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680  --set admin.port=13133 ./charts/jaeger
+```bash
+helm upgrade -i jaeger -n jaeger-otpl-v1 \
+        --set tag=latest \
+        --set provisionDataStore.cassandra=false \
+        --set provisionDataStore.elasticsearch=true \
+        --set provisionDataStore.kafka=false \
+        --set storage.type=elasticsearch  \
+        --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester \
+        --set agent.image=jaegertracing/jaeger-opentelemetry-agent \
+        --set collector.image=jaegertracing/jaeger-opentelemetry-collector \
+        --set collector.service.http.port=55680  \
+        --set admin.port=13133 \
+        .
+```
+
+```bash
+# one line
+helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=true --set provisionDataStore.kafka=false --set storage.type=elasticsearch  --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680  --set admin.port=13133 .
 ```
 
 ### Pack

@@ -8,16 +8,19 @@ This chart adds all components required to run Jaeger as described in the [jaege
 
 ## Installing the Chart
 
+- See OpenTelemetry deployment [here](#deploy-as-open-telemetry).
+
 Add the Jaeger Tracing Helm repository:
 
 ```bash
-helm repo add jaegertracing https://weknow-network.github.io/jaeger-helm-charts-otpl
+helm repo add jaeger-otpl https://weknow-network.github.io/jaeger-helm-charts-otpl
+helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
 ```
 
 To install a release named `jaeger`:
 
 ```bash
-helm install jaeger jaegertracing/jaeger
+helm install jaeger jaeger-otpl/jaeger
 ```
 
 By default, the chart deploys the following:
@@ -35,7 +38,7 @@ components](https://www.jaegertracing.io/img/architecture-v1.png)
 See [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing). To see all configurable options with detailed comments, visit the chart's [values.yaml](https://github.com/jaegertracing/helm-charts/blob/master/charts/jaeger/values.yaml), or run these configuration commands:
 
 ```console
-$ helm show values jaegertracing/jaeger
+$ helm show values jaeger-otpl/jaeger
 ```
 
 You may also `helm show values` on this chart's [dependencies](#dependencies) for additional options.
@@ -85,7 +88,9 @@ complete successfully.
 To install the chart with the release name `jaeger` using a new ElasticSearch cluster instead of Cassandra (default), run the following command:
 
 ```console
-helm install jaeger jaegertracing/jaeger \
+helm install jaeger jaeger-otpl/jaeger \
+  --set collector.service.http.port=55680  \
+  --set admin.port=13133 \
   --set provisionDataStore.cassandra=false \
   --set provisionDataStore.elasticsearch=true \
   --set storage.type=elasticsearch
@@ -96,7 +101,9 @@ helm install jaeger jaegertracing/jaeger \
 A release can be configured as follows to use an existing ElasticSearch cluster as it as the storage backend:
 
 ```console
-helm install jaeger jaegertracing/jaeger \
+helm install jaeger jaeger-otpl/jaeger \
+  --set collector.service.http.port=55680  \
+  --set admin.port=13133 \
   --set provisionDataStore.cassandra=false \
   --set storage.type=elasticsearch \
   --set storage.elasticsearch.host=<HOST> \
@@ -162,7 +169,7 @@ kubectl create configmap jaeger-tls --from-file=trust.store --from-file=es.pem
 ```
 
 ```console
-helm install jaeger jaegertracing/jaeger --values jaeger-values.yaml
+helm install jaeger jaeger-otpl/jaeger --values jaeger-values.yaml
 ```
 
 ### Cassandra configuration
@@ -172,7 +179,9 @@ helm install jaeger jaegertracing/jaeger --values jaeger-values.yaml
 If you already have an existing running Cassandra cluster, you can configure the chart as follows to use it as your backing store (make sure you replace `<HOST>`, `<PORT>`, etc with your values):
 
 ```console
-helm install jaeger jaegertracing/jaeger \
+helm install jaeger jaeger-otpl/jaeger \
+  --set collector.service.http.port=55680  \
+  --set admin.port=13133 \
   --set provisionDataStore.cassandra=false \
   --set storage.cassandra.host=<HOST> \
   --set storage.cassandra.port=<PORT> \
@@ -232,7 +241,7 @@ data:
 
 ```console
 kubectl apply -f jaeger-tls-cassandra-secret.yaml
-helm install jaeger jaegertracing/jaeger --values values.yaml
+helm install jaeger jaeger-otpl/jaeger --values values.yaml
 ```
 
 ### Ingester Configuration
@@ -248,7 +257,7 @@ The architecture illustrated below can be achieved by enabling the ingester comp
 To provision a new Kafka cluster along with jaeger-ingester:
 
 ```console
-helm install jaeger jaegertracing/jaeger \
+helm install jaeger jaeger-otpl/jaeger \
   --set provisionDataStore.kafka=true \
   --set ingester.enabled=true
 ```
@@ -258,7 +267,7 @@ helm install jaeger jaegertracing/jaeger \
 You can use an exisiting Kafka cluster with jaeger too
 
 ```console
-helm install jaeger jaegertracing/jaeger \
+helm install jaeger jaeger-otpl/jaeger \
   --set ingester.enabled=true \
   --set storage.kafka.brokers={<BROKER1:PORT>,<BROKER2:PORT>} \
   --set storage.kafka.topic=<TOPIC>
@@ -330,21 +339,55 @@ extraObjects:
         name: "{{ include \"jaeger.esLookback.serviceAccountName\" . }}"
 ```
 
-## Deploy for Open Telemetry image
+## Deploy as Open Telemetry
 
-Replace the images for `jaegertracing/jaeger-opentelemetry-*`
+Replace the images for `jaeger-otpl/jaeger-opentelemetry-*`
 
 [Read more](https://www.jaegertracing.io/docs/1.21/opentelemetry/)
 
 ```bash
-helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=true --set provisionDataStore.kafka=false --set storage.type=elasticsearch  --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680  --set admin.port=13133 jaegertracing/jaeger
+helm upgrade -i jaeger -n jaeger-otpl-v1 \
+        --set tag=latest \
+        --set provisionDataStore.cassandra=false \
+        --set provisionDataStore.elasticsearch=true \
+        --set provisionDataStore.kafka=false \
+        --set storage.type=elasticsearch  \
+        --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester \
+        --set agent.image=jaegertracing/jaeger-opentelemetry-agent \
+        --set collector.image=jaegertracing/jaeger-opentelemetry-collector \
+        --set collector.service.http.port=55680  \
+        --set admin.port=13133 \
+        jaeger-otpl/jaeger
 ```
 
-### using local '.' instead of 'jaegertracing/jaeger'
+```bash
+# one line
+helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=true --set provisionDataStore.kafka=false --set storage.type=elasticsearch  --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680  --set admin.port=13133 jaeger-otpl/jaeger
+```
+
+### using local '.' instead of 'jaeger-otpl/jaeger'
 
 ```bash
 helm dependency update
+```
 
+```bash
+helm upgrade -i jaeger -n jaeger-otpl-v1 \
+        --set tag=latest \
+        --set provisionDataStore.cassandra=false \
+        --set provisionDataStore.elasticsearch=true \
+        --set provisionDataStore.kafka=false \
+        --set storage.type=elasticsearch  \
+        --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester \
+        --set agent.image=jaegertracing/jaeger-opentelemetry-agent \
+        --set collector.image=jaegertracing/jaeger-opentelemetry-collector \
+        --set collector.service.http.port=55680  \
+        --set admin.port=13133 \
+        .
+```
+
+```bash
+# one line
 helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=true --set provisionDataStore.kafka=false --set storage.type=elasticsearch  --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680  --set admin.port=13133 .
 ```
 
