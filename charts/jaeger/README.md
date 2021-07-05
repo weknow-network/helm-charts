@@ -334,6 +334,8 @@ extraObjects:
 
 Replace the images for `jaegertracing/jaeger-opentelemetry-*`
 
+[Read more](https://www.jaegertracing.io/docs/1.21/opentelemetry/)
+
 ```bash
 helm upgrade -i jaeger -n jaeger-otpl-v1 --set tag=latest --set provisionDataStore.cassandra=false --set provisionDataStore.elasticsearch=true --set provisionDataStore.kafka=false --set storage.type=elasticsearch  --set ingester.image=jaegertracing/jaeger-opentelemetry-ingester --set agent.image=jaegertracing/jaeger-opentelemetry-agent --set collector.image=jaegertracing/jaeger-opentelemetry-collector --set collector.service.http.port=55680  --set admin.port=13133 jaegertracing/jaeger
 ```
